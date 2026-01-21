@@ -20,6 +20,7 @@ RUN cp /opt/app-root/src/target/release/vector /usr/bin
 FROM registry.redhat.io/rhel9-6-els/rhel:9.6@sha256:79408df6a94a716af2f2bd6aff681e33c7c91691ac128a0c5fb90b423dbd48ad
 
 COPY --from=builder /usr/bin/vector /usr/bin/
+RUN dnf install -y systemd
 
 WORKDIR /usr/bin
 CMD ["/usr/bin/vector"]
@@ -28,6 +29,7 @@ ARG VECTOR_URL
 ARG VECTOR_COMMIT
 LABEL \
         com.redhat.component="logging-vector-container" \
+        cpe="cpe:/a:redhat:logging:6.3::el9" \
         description="Vector container for collection of container logs" \
         distribution-scope="subscription" \
         io.k8s.description="Vector container for collection of container logs" \
@@ -40,6 +42,7 @@ LABEL \
         license="Apache-2.0" \
         maintainer="AOS Logging <team-logging@redhat.com>" \
         name="openshift-logging/vector-rhel9" \
+        release="6.3"
         summary="Log collection agent for Red Hat Openshift Logging" \
         url=${VECTOR_URL} \
         vendor="Red Hat, Inc." \
